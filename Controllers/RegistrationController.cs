@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RegistrationForm.DTOs;
 using RegistrationForm.Models;
 using RegistrationForm.Repositories;
+using RegistrationForm.Services;
 
 namespace RegistrationForm.Controllers
 {
@@ -11,18 +12,23 @@ namespace RegistrationForm.Controllers
 
     public class RegistrationController:ControllerBase
     {
-        private readonly IUserRepository _userRepo;
-        private readonly IMapper _mapper;
-        public RegistrationController(IUserRepository userRepo, IMapper mapper)
+        private readonly IRegistrationService _service;
+   
+        public RegistrationController(IRegistrationService service)
         {
-            _userRepo = userRepo;
-            _mapper = mapper;
-        }
+            _service = service;
+       }
 
         [HttpGet]
-        public async Task<List<User>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return await _userRepo.GetAsync();
+            var result = await _service.GetUsersAsync();
+            if(!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
 
         }
 
@@ -30,9 +36,8 @@ namespace RegistrationForm.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] RegistrationRequestDto request)
         {
-            var user = _mapper.Map<User>(request);
-            await _userRepo.AddAsync(user);
-            return Ok(new { message = "User successfully registered"});
+            var result = await _service.RegisterAsync(request);
+            return Ok(result);
         }
     }
 }

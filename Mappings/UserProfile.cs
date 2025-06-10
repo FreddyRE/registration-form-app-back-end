@@ -16,6 +16,10 @@ namespace RegistrationForm.Mappings
                 .ForMember(dest => dest.Name, opt =>
                     opt.MapFrom(src => src.FullName))
                 ;
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.DateOfBirth,
+                    opt => opt.MapFrom(src => src.DateOfBirth.ToString("yyyy-MM-dd"))
+                );
         }
     }
 }
