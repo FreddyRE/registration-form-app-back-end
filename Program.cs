@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using RegistrationForm.Data;
+using RegistrationForm.Mappings;
+using RegistrationForm.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseInMemoryDatabase("RegistrationDb")
+);
+
+builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
