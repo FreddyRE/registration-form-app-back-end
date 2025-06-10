@@ -1,4 +1,4 @@
-# 🧠 Registration Form App – Backend
+# Registration Form App – Backend
 
 This is the **backend** for the Registration Form App, built using **C# (.NET Core)** and **Entity Framework Core with InMemory provider**. It handles form registration logic, validation, and persistence — all without relying on an external database.
 
