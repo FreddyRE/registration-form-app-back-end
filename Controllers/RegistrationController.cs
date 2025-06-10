@@ -19,6 +19,14 @@ namespace RegistrationForm.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<List<User>> GetUsers()
+        {
+            return await _userRepo.GetAsync();
+
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] RegistrationRequestDto request)
         {

@@ -1,5 +1,8 @@
-﻿using RegistrationForm.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RegistrationForm.Data;
 using RegistrationForm.Models;
+using System.Buffers;
+using System.Collections;
 
 namespace RegistrationForm.Repositories
 {
@@ -9,6 +12,11 @@ namespace RegistrationForm.Repositories
         public UserRepository(AppDbContext ctx)
         {
             _ctx = ctx;
+        }
+
+        public async Task<List<User>> GetAsync()
+        {
+            return await _ctx.Users.ToListAsync();
         }
 
         public async Task AddAsync(User user)
